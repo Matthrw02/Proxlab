@@ -19,10 +19,8 @@ This project documents the design and deployment of a personal homelab built usi
 * Ubuntu VM (Docker Host)
 * Services:
 
-  * Nextcloud (File storage)
   * Komga (Media server)
   * Tailscale (Remote access)
-  * Grafana + Prometheus (Monitoring)
 
 ## 💾 Storage Design
 
