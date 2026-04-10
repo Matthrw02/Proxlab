@@ -3,9 +3,9 @@
 ## Current Setup
 | Device | IP |
 |---|---|
-| Proxmox | <PROXMOX-IP> |
-| TrueNAS VM | <TRUENAS-IP> |
-| Docker VM | <DOCKER-VM-IP> |
+| Proxmox | < PROXMOX-IP > |
+| TrueNAS VM | < TRUENAS-IP > |
+| Docker VM | < DOCKER-VM-IP > |
 
 
 ## DNS
