@@ -13,7 +13,7 @@
 - 2TB SATA — passed through to TrueNAS VM (bulk/backup pool)
 
 ## Access
-https://<PROXMOX-IP>:8006
+https://< PROXMOX-IP >:8006
 
 ## Notes
 - No-subscription repository enabled
