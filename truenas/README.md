@@ -5,7 +5,7 @@
 - CPU: 4 cores
 - RAM: 8GB
 - Boot disk: 64GB (local-lvm)
-- IP: <TRUENAS-IP>
+- IP: < TRUENAS-IP >
 
 ## Storage Pools
 | Pool | Drive | Size | Purpose |
