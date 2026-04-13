@@ -5,12 +5,13 @@
 - CPU: 4 cores
 - RAM: 8GB
 - Disk: 64GB (local-lvm)
-- IP: <DOCKER-VM-IP>
+- IP: < DOCKER-VM-IP >
 
 ## Services
 | Service | Port | Purpose |
 |---|---|---|
 | Komga | 25600 | Manga and comic server |
+| Portainer | 9000 | Docker container management UI |
 
 ## Storage
 - Comics/Manga mounted from TrueNAS SMB share
@@ -47,10 +48,26 @@ services:
     restart: unless-stopped
 ```
 
+## Portainer Setup
+```bash
+docker volume create portainer_data
+docker run -d \
+  -p 9000:9000 \
+  --name=portainer \
+  --restart=always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data \
+  portainer/portainer-ce
+```
+
 ## Access
-- Komga Web UI: `http://<DOCKER-VM-IP>:25600`
+| Service | Local | Tailscale |
+|---|---|---|
+| Komga | http://< DOCKER-VM-IP >:25600 | http://< DOCKER-TAILSCALE-IP >:25600 |
+| Portainer | http://< DOCKER-VM-IP >:9000 | http://< DOCKER-TAILSCALE-IP >:9000 |
 
 ## Notes
 - SMB share credentials stored in /etc/fstab
 - Komga library path set to `/comics-manga`
+- Komga stack shows as "Limited" in Portainer (created outside Portainer)
 - Files stored on TrueNAS fast pool (2TB NVMe)
