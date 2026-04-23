@@ -13,26 +13,40 @@
 ## Architecture
 - **Proxmox VE** — Hypervisor managing all VMs
 - **TrueNAS Scale VM** — NAS, file storage, SMB shares
-- **Docker VM** — Containerized apps (Komga, future services)
+- **Docker VM** — Containerized apps and services
 
 ## Storage Design
-- 2TB NVMe → Primary storage (fast pool) — manga, media, data
-- 2TB SATA → Backup pool — ZFS snapshots and replication
+- 2TB NVMe → Primary storage (fast pool)
+- 2TB SATA → Backup pool (weekly ZFS replication)
 
 ## Services
 | Service | VM | Purpose |
 |---|---|---|
 | TrueNAS Scale | TrueNAS VM | File storage + SMB shares |
-| Komga | Docker VM | Manga/comic server |
+| Komga | Docker VM | Manga and comic server |
+| Portainer | Docker VM | Container management UI |
+| Nginx Proxy Manager | Docker VM | Reverse proxy + clean URLs |
+| Uptime Kuma | Docker VM | Service monitoring |
+| Watchtower | Docker VM | Auto container updates |
+| Heimdall | Docker VM | Homelab dashboard |
+
+## Networking
+- Tailscale VPN on all VMs and host
+- Remote access via Tailscale on all services
+- Domain: matthrw.com (Cloudflare) — planned
 
 ## Future Plans
-- Tailscale remote access
-- Nginx reverse proxy
-- Grafana + Prometheus monitoring
-- Automated ZFS backups
+- komga.matthrw.com via Cloudflare + Nginx
+- Immich photo server
+- Pi 4 → Pi-hole + Grafana monitoring
+- IdeaPad Gaming 3 → Proxmox node 2
+- Minecraft + Palworld game servers
+- Dedicated NAS hardware (long term)
 
 ## What I Learned
 - Hypervisor setup and VM management
-- ZFS storage pools and datasets
+- ZFS storage pools, datasets and replication
 - NAS configuration and SMB sharing
-- Docker containerization
+- Docker containerization and orchestration
+- Reverse proxy and networking
+- Remote access with Tailscale
