@@ -5,18 +5,20 @@
 - CPU: 4 cores
 - RAM: 8GB
 - Disk: 64GB (local-lvm)
-- IP: < DOCKER-VM-IP >
 
 ## Services
 | Service | Port | Purpose |
 |---|---|---|
 | Komga | 25600 | Manga and comic server |
 | Portainer | 9000 | Docker container management UI |
+| Nginx Proxy Manager | 81 | Reverse proxy + clean URLs |
+| Uptime Kuma | 3001 | Service uptime monitoring |
+| Watchtower | - | Automatic weekly container updates |
+| Heimdall | 8080 | Homelab dashboard |
 
 ## Storage
 - Comics/Manga mounted from TrueNAS SMB share
 - Mount point: `/mnt/comics-manga`
-- TrueNAS share: `\\<TRUENAS-IP>\comics-manga`
 
 ## Setup Commands
 ```bash
@@ -33,41 +35,9 @@ sudo mkdir /mnt/comics-manga
 echo "//TRUENAS-IP/comics-manga /mnt/comics-manga cifs username=smbuser,uid=1000,gid=1000 0 0" | sudo tee -a /etc/fstab
 ```
 
-## Komga Docker Compose
-```yaml
-version: "3"
-services:
-  komga:
-    image: gotson/komga
-    container_name: komga
-    ports:
-      - "25600:25600"
-    volumes:
-      - /mnt/comics-manga:/comics-manga
-      - ./config:/config
-    restart: unless-stopped
-```
-
-## Portainer Setup
-```bash
-docker volume create portainer_data
-docker run -d \
-  -p 9000:9000 \
-  --name=portainer \
-  --restart=always \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v portainer_data:/data \
-  portainer/portainer-ce
-```
-
-## Access
-| Service | Local | Tailscale |
-|---|---|---|
-| Komga | http://< DOCKER-VM-IP >:25600 | http://< DOCKER-TAILSCALE-IP >:25600 |
-| Portainer | http://< DOCKER-VM-IP >:9000 | http://< DOCKER-TAILSCALE-IP >:9000 |
-
 ## Notes
-- SMB share credentials stored in /etc/fstab
-- Komga library path set to `/comics-manga`
+- All containers deployed and managed via Portainer
 - Komga stack shows as "Limited" in Portainer (created outside Portainer)
+- Watchtower runs every Sunday at 4am
+- SMB share credentials stored in /etc/fstab
 - Files stored on TrueNAS fast pool (2TB NVMe)
