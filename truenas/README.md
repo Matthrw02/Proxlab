@@ -10,20 +10,28 @@
 ## Storage Pools
 | Pool | Drive | Size | Purpose |
 |---|---|---|---|
-| fast | 2TB NVMe | 1.8T | Primary storage |
+| Fast | 2TB NVMe | 1.8T | Primary storage |
 | bulk | 2TB SATA | 1.7T | Backup + snapshots |
 
 ## Datasets
 | Dataset | Path | Purpose |
 |---|---|---|
-| comics-manga | /mnt/fast/comics-manga | Manga and comic storage |
+| comics-manga | /mnt/Fast/comics-manga | Manga and comic storage |
+| nextcloud-data | /mnt/Fast/nextcloud-data | Nextcloud user data (files, photos, sync) |
 
 ## SMB Shares
-| Share | Path |
-|---|---|
-| comics-manga | /mnt/fast/comics-manga |
+| Share | Path | Consumer |
+|---|---|---|
+| comics-manga | /mnt/Fast/comics-manga | Komga (Docker VM) |
+| nextcloud-data | /mnt/Fast/nextcloud-data | Nextcloud (Docker VM) |
+
+## SMB User
+- Username: `smbuser`
+- Owns both shares with Full Control via NFSv4 ACL
 
 ## Notes
-- Drives passed through from Proxmox as raw disks
-- Duplicate serial number issue fixed using custom serials in qm set
-- ZFS replication from fast → bulk planned
+- Drives passed through from Proxmox as raw block devices
+- Pool name is `Fast` (capital F) — case-sensitive in mount paths
+- All datasets are flat (no nesting) — nested ZFS datasets are not visible through parent SMB/NFS exports
+- SSH disabled by default — use Web UI Shell for any CLI work
+- Weekly ZFS replication: Fast → bulk
